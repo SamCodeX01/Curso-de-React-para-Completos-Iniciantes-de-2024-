@@ -9,13 +9,14 @@ function TaskPage(){
     
     return (
         <div className="h-screen bg-slate-500 p-6">
-            <div className="w-[500px] space-y-4">
+            <div className="w-[500px] mx-auto space-y-4">
                 <div className="flex justify-center relative mb-6 h-10 rounded-sm">
                    
                     <button onClick={()=>navigate(-1)} className="absolute left-0 top-0 bottom-0 rounded-md">
                         Voltar
                     </button>
                     <Title>Detalhes da Tarefa</Title>
+                    
                 </div>
 
                  <div className="bg-slate-200 p-4 rounded-md">
