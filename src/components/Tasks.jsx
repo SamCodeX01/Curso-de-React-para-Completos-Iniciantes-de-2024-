@@ -1,3 +1,4 @@
+import { CheckIcon } from "lucide-react";
 import { useNavigate } from "react-router-dom";
  // Importing the icon for navigation
 /*
@@ -21,9 +22,10 @@ function Tasks({tasks, onTaskClick, onDeleteTaskClick}){//Aqui esse componente f
                <li key={task.id} className="flex gap-2">
 
                     <button onClick={()=> onTaskClick(task.id)} 
-                    className={`bg-slate-400 text-left w-full text-white p-2 rounded-md 
+                    className={`bg-slate-400 text-left w-full flex items-center gap-2 text-white p-2 rounded-md 
                         ${task.isCompleted && 'line-through'}`}
                     >
+                        {task.isCompleted ? <CheckIcon/> : null}
                         {task.title}
                         {/* {task.isCompleted?"COMPLETE":"INCOMPLETE"} */}
                     </button>

@@ -61,6 +61,7 @@ function onAddTaskSubmit(title, description){
     <div className="w-screen h-screen bg-slate-500 flex justify-center p-6">
       <div className="w-[500px] space-y-4">
         <Title>Gerenciador de Tarefas</Title>
+        <h1 className="text-white text-center">Aline do Grau</h1>
         {<AddTask onAddTaskSubmit = {onAddTaskSubmit}/>/*componente AddTask.jsx que recebe a função onAddTaskSubmit como props */}
         <Tasks tasks = {tasks} onTaskClick={onTaskClick} onDeleteTaskClick={onDeleteTaskClick}/>
         {/*
