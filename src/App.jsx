@@ -2,26 +2,34 @@ import Tasks from "./components/Tasks";
 import AddTask from "./components/AddTask";
 import { useState } from "react";
 import { v4 } from "uuid";
+import { useEffect } from "react";
+import Title from "./components/Title"; // Importa o componente Title para o título da página
 
 function App(){
-  const[tasks, setTasks] = useState([{//tasks é o nome da variavel que guarda o estado, setTasks é a função que atualiza o estado
-    id: 1,
-    title: "Estudar programação",
-    description: "Estudar programação para se tornar um desenvolvedor full stack.",
-    isCompleted: false
-  },
-  {  
-    id: 2,
-    title: "Estudar Inglês",
-    description: "Estudar inglês para se tornar fluente.",
-    isCompleted: false
-  },
-  {  
-    id: 3,
-    title: "Estudar matemática",
-    description: "Estudar matemática para se tornar um desenvolvwedor full stack.",
-    isCompleted: false
-  }])
+  const[tasks, setTasks] = useState(//tasks é o nome da variavel que guarda o estado, setTasks é a função que atualiza o estado
+    JSON.parse(localStorage.getItem("tasks")) || []
+  );
+
+  useEffect(()=>{//useEffect é um hook do React que permite executar efeitos colaterais em componentes funcionais
+      localStorage.setItem("tasks", JSON.stringify(tasks));// Armazena as tarefas no localStorage como uma string JSON
+    },[tasks]);// O efeito será executado sempre que o estado tasks for atualizado
+
+    useEffect(()=>{
+      const fetchTasks = async () => {
+        //Chamar API
+        const response = await fetch(
+          "https://jsonplaceholder.typicode.com/todos?_limit=5",{method:"GET",}
+        );
+       
+        const data = await response.json();//PEGA OS DADOS QUE ELA RETORNA, Converte a resposta da API em JSON
+
+        setTasks(data)//ARMAZENA/PERSISTIR ESSES DADOS NO STATE
+
+      };
+      //Se quiser, você pode chamar uma API para pegar as tarefas
+      fetchTasks();//Chama a função fetchTasks para buscar as tarefas da API
+    },[]);//useEffect vazio para executar apenas uma vez quando o componente for montado
+
 
   function onTaskClick(taskId){
     const newTasks = tasks.map((task) =>{//map percorre o array tasks e retorna um novo array com as tarefas atualizadas
@@ -52,7 +60,7 @@ function onAddTaskSubmit(title, description){
   return(
     <div className="w-screen h-screen bg-slate-500 flex justify-center p-6">
       <div className="w-[500px] space-y-4">
-        <h1 className="text-3xl text-slate-100 font-bold text-center">Gerenciador de Tarefas</h1>
+        <Title>Gerenciador de Tarefas</Title>
         {<AddTask onAddTaskSubmit = {onAddTaskSubmit}/>/*componente AddTask.jsx que recebe a função onAddTaskSubmit como props */}
         <Tasks tasks = {tasks} onTaskClick={onTaskClick} onDeleteTaskClick={onDeleteTaskClick}/>
         {/*
@@ -62,13 +70,7 @@ function onAddTaskSubmit(title, description){
         */}
       </div>
     </div>
-  )
+  );
 }
 export default App;
-
-
-
-//PAREI EM 1h:20min
-//https://www.youtube.com/watch?v=2RWsLmu8yVc&t=3686s
-
 
